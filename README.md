@@ -1,0 +1,1 @@
+# python_hometask_6
