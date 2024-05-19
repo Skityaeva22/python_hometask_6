@@ -30,7 +30,7 @@ def renderDeposits(request):
     }
     return render(request, template_name='core/deposits.html', context=context)
 
-def get_depositor(request, depositor_id):
+def get_deposit(request, depositor_id):
     deposits = models.Deposit.objects.filter(depositor=depositor_id)
     depositors = models.Depositor.objects.all()
     depositor = models.Depositor.objects.get(pk=depositor_id)
@@ -41,3 +41,33 @@ def get_depositor(request, depositor_id):
         'title': 'Вклады: '
     }
     return render(request, template_name='core/deposits.html', context=context)
+
+def get_depositor(request, role):
+    depositors = models.Depositor.objects.filter(role=role)
+    role = role
+    context = {
+        'depositors': depositors,
+        'role': role,
+        'title': 'Вклачики '
+    }
+    return render(request, template_name='core/depositors.html', context=context)
+
+def get_currency(request, name):
+    currency = models.Currency.objects.filter(name__icontains=name)
+    name = name
+    context = {
+        'currency': currency,
+        'name': name,
+        'title': 'Валюты'
+    }
+    return render(request, template_name='core/currency.html', context=context)
+
+def get_bank(request, name):
+    banks = models.Bank.objects.filter(name__icontains=name)
+    name = name
+    context = {
+        'banks': banks,
+        'name': name,
+        'title': 'Банки'
+    }
+    return render(request, template_name='core/index.html', context=context)

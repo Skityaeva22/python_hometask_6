@@ -10,13 +10,13 @@
 <div class="col-md-3">
     <ul class="list-group">
         {% for depositor in depositors %}
-        <a href="/deposits/depositor/{{ depositor.pk }}" class="list-group-item">
+        <a href="{% url 'deposits_by_depositor' depositor.pk %}" class="list-group-item">
             {{ depositor.last_name }}
             {{ depositor.first_name }}
             {{ depositor.patronymic }}
         </a>
         {% endfor %}
-        <a href="/deposits" class="list-group-item">
+        <a href="{% url 'deposits' %}" class="list-group-item">
             Все вклады
         </a>
     </ul>
