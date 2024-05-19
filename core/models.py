@@ -2,6 +2,7 @@ from datetime import date
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 class Bank(models.Model):
     name = models.CharField('Наименование', max_length=100, unique=True)
@@ -9,6 +10,9 @@ class Bank(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('Bank', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Банк'
@@ -20,6 +24,9 @@ class Currency(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('Currency', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Валюта'
@@ -45,6 +52,9 @@ class Depositor(models.Model):
     def __str__(self):
         return self.get_full_name()
 
+    def get_absolute_url(self):
+        return reverse('Depositor', kwargs={'pk': self.pk})
+
     def get_full_name(self) -> str:
         first_name = self.first_name
         last_name = self.last_name
@@ -69,6 +79,10 @@ class Deposit(models.Model):
 
     def __str__(self):
         return f"{self.depositor} - {self.amount} {self.currency.code}"
+
+    def get_absolute_url(self):
+        return reverse('Deposit', kwargs={'pk': self.pk})
+
     class Meta:
         verbose_name = 'Вклад'
         verbose_name_plural = 'Вклады'
