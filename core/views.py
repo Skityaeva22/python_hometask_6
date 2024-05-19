@@ -22,4 +22,22 @@ def renderDepositors(request):
 
 def renderDeposits(request):
     deposits = models.Deposit.objects.all()
-    return render(request, 'core/deposits.html', {'deposits': deposits, 'title': 'Список вкладов'})
+    depositors = models.Depositor.objects.all()
+    context = {
+        'deposits': deposits,
+        'depositors': depositors,
+        'title': 'Список вкладов'
+    }
+    return render(request, template_name='core/deposits.html', context=context)
+
+def get_depositor(request, depositor_id):
+    deposits = models.Deposit.objects.filter(depositor=depositor_id)
+    depositors = models.Depositor.objects.all()
+    depositor = models.Depositor.objects.get(pk=depositor_id)
+    context = {
+        'deposits': deposits,
+        'depositors': depositors,
+        'depositor': depositor,
+        'title': 'Вклады: '
+    }
+    return render(request, template_name='core/deposits.html', context=context)
