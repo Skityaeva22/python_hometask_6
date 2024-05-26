@@ -8,34 +8,15 @@
 
 {% block sidebar %}
 <div class="col-md-3">
-    <div class="input-group">
-        <input id="name" type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..."
-               aria-describedby="button-addon2" value="{{ name }}">
-        <button class="btn btn-info" type="button" id="button-find">Поиск</button>
-        <button class="btn btn-light" type="button" id="button-reset">Сброс</button>
-    </div>
+    <form method="get">
+        <div class="input-group">
+            <input name="term" type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..."
+               aria-describedby="button-addon2" value="{{ filters.data.term }}">
+            <button type="submit" class="btn btn-info">Поиск</button>
+            <a href="{% url 'currency' %}" class="btn btn-light">Сброс</a>
+        </div>
+    </form>
 </div>
-<script>
-    document.getElementById("button-reset").addEventListener("click", function() {
-        window.location.href = "{% url 'currency' %}";
-    });
-
-    document.getElementById("button-find").addEventListener("click", function() {
-        var name = document.getElementById("name").value.trim();
-        if (name) {
-            var url = "{% url 'currency_by_name' '__placeholder__' %}".replace('__placeholder__', name);
-            fetch(url)
-              .then(response => {
-                if (response.status === 200) {
-                  window.location.href = response.url;
-                } else {
-                  console.error('Ошибка при запросе: ' + response.status);
-                }
-              })
-              .catch(error => console.error('Ошибка: ' + error));
-        }
-    });
-</script>
 {% endblock %}
 
 {% block content %}

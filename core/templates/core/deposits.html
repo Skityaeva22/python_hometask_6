@@ -8,18 +8,21 @@
 
 {% block sidebar %}
 <div class="col-md-3">
-    <ul class="list-group">
-        {% for depositor in depositors %}
-        <a href="{% url 'deposits_by_depositor' depositor.pk %}" class="list-group-item">
-            {{ depositor.last_name }}
-            {{ depositor.first_name }}
-            {{ depositor.patronymic }}
-        </a>
-        {% endfor %}
-        <a href="{% url 'deposits' %}" class="list-group-item">
-            Все вклады
-        </a>
-    </ul>
+    <form method="get">
+        <select class="form-select mb-2" name="depositor" id="depositorSelect">
+            <option value="">Выберите вкладчика</option>
+            {% for depositor in depositors %}
+            <option value="{{ depositor.id }}" {% if depositor.id == filters.data.depositor %} selected {% endif %}>
+                {{ depositor.last_name }}
+                {{ depositor.first_name }}
+                {{ depositor.patronymic }}
+            </option>
+            {{depositor}}
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-info">Применить фильтры</button>
+        <a href="{% url 'deposits' %}" class="btn btn-light">Сбросить</a>
+    </form>
 </div>
 {% endblock %}
 

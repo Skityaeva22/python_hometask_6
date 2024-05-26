@@ -8,12 +8,14 @@
 
 {% block sidebar %}
 <div class="col-md-3">
-    <div class="input-group">
-        <input id="name" type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..."
-               aria-describedby="button-addon2" value="{{ name }}">
-        <button class="btn btn-info" type="button" id="button-find">Поиск</button>
-        <button class="btn btn-light" type="button" id="button-reset">Сброс</button>
-    </div>
+    <form method="get">
+        <div class="input-group">
+            <input name="term" type="text" class="form-control" placeholder="Поиск..." aria-label="Поиск..."
+               aria-describedby="button-addon2" value="{{ filters.data.term }}">
+            <button type="submit" class="btn btn-info">Поиск</button>
+            <a href="{% url 'home' %}" class="btn btn-light">Сброс</a>
+        </div>
+    </form>
     <ul class="list-group mt-4">
         <a class="list-group-item" href="{% url 'home' %}">Банки</a>
         <a class="list-group-item" href="{% url 'home' %}">Добавление банка</a>

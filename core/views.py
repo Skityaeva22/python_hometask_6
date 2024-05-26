@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from django.views.generic import ListView, TemplateView, DetailView, RedirectView
+from core import filters
 
 from . import models
 
@@ -10,39 +11,69 @@ class BanksList(ListView):
     context_object_name = 'banks'
     template_name = 'core/index.html'
 
+    def get_filters(self):
+        queryset = super().get_queryset()
+        return filters.BanksFilter(self.request.GET, queryset=queryset)
+    def get_queryset(self):
+        return self.get_filters().qs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filters'] = self.get_filters()
         context['title'] = 'Список банков'
         return context
 
 class CurrencyList(ListView):
     model = models.Currency
-    context_object_name = 'currency'
     template_name = 'core/currency.html'
+    context_object_name = 'currency'
+
+    def get_filters(self):
+        queryset = super().get_queryset()
+        return filters.CurrencyFilter(self.request.GET, queryset=queryset)
+    def get_queryset(self):
+        return self.get_filters().qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filters'] = self.get_filters()
         context['title'] = 'Список валют'
         return context
 
 class DepositorsList(ListView):
     model = models.Depositor
-    context_object_name = 'depositors'
     template_name = 'core/depositors.html'
+    context_object_name = 'depositors'
+
+    def get_filters(self):
+        queryset = super().get_queryset()
+        return filters.DepositorFilter(self.request.GET, queryset=queryset)
+    def get_queryset(self):
+        return self.get_filters().qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Список вкладчиков'
+        context['filters'] = self.get_filters()
+        context['title'] = 'Список кладчиков'
+        context['roles'] = ['depositorPremium', 'depositorNormal', 'depositorGarbage']
         return context
 
-class DepositsList(TemplateView):
+class DepositsList(ListView):
+    model = models.Deposit
     template_name = 'core/deposits.html'
+    context_object_name = 'deposits'
+
+    def get_filters(self):
+        queryset = super().get_queryset()
+        return filters.DepositFilter(self.request.GET, queryset=queryset)
+    def get_queryset(self):
+        return self.get_filters().qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['deposits'] = models.Deposit.objects.all()
+        context['filters'] = self.get_filters()
+        context['title'] = 'Список кладов'
         context['depositors'] = models.Depositor.objects.all()
-        context['title'] = 'Список вкладов'
         return context
 
 class BankView(TemplateView):
@@ -84,7 +115,7 @@ class DepositView(TemplateView):
         context['title'] = 'Вклады: '
         return context
 
-class DepositorView(TemplateView):
+class DepositorView(ListView):
     template_name = 'core/depositors.html'
 
     def get_context_data(self, **kwargs):
