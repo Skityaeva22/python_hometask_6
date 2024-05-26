@@ -2,9 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from django.views.generic import ListView, TemplateView, DetailView, RedirectView
-from core import filters
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
-from . import models
+from core import models, filters, serializers
+
+class BanksVS(ModelViewSet):
+    queryset = models.Bank.objects.all()
+    filterset_class = filters.BanksFilter
+    serializer_class = serializers.Banks
+
+class BanksAPI(APIView):
+    def get(self, request):
+        qs = models.Bank.objects.all()
+        names = [p.name for p in qs]
+        serializer = serializers.Banks(qs, many=True)
+
+        return Response(data=serializer.data)
+
+    def post(self, request):
+        serializer = serializers.Banks(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
 
 class BanksList(ListView):
     model = models.Bank

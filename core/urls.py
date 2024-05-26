@@ -1,5 +1,12 @@
 from django.urls import path
 from core import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+# не получается
+router.register('banks/settings', views.BanksVS, basename='banks-vs')
+
+# urlpatterns = []
 
 urlpatterns = [
     path('', views.BanksList.as_view(), name='home'),
@@ -16,3 +23,5 @@ urlpatterns = [
     path('deposit/<int:pk>', views.DepositDetail.as_view(), name='deposit_detail'),
     path('deposits/depositor/<int:depositor_id>', views.DepositView.as_view(), name='deposits_by_depositor'),
 ]
+
+urlpatterns += router.urls
