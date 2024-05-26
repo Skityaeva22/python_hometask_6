@@ -14,6 +14,7 @@ class BanksList(ListView):
     def get_filters(self):
         queryset = super().get_queryset()
         return filters.BanksFilter(self.request.GET, queryset=queryset)
+
     def get_queryset(self):
         return self.get_filters().qs
 
@@ -31,6 +32,7 @@ class CurrencyList(ListView):
     def get_filters(self):
         queryset = super().get_queryset()
         return filters.CurrencyFilter(self.request.GET, queryset=queryset)
+
     def get_queryset(self):
         return self.get_filters().qs
 
@@ -48,6 +50,7 @@ class DepositorsList(ListView):
     def get_filters(self):
         queryset = super().get_queryset()
         return filters.DepositorFilter(self.request.GET, queryset=queryset)
+
     def get_queryset(self):
         return self.get_filters().qs
 
@@ -66,6 +69,7 @@ class DepositsList(ListView):
     def get_filters(self):
         queryset = super().get_queryset()
         return filters.DepositFilter(self.request.GET, queryset=queryset)
+
     def get_queryset(self):
         return self.get_filters().qs
 
