@@ -41,12 +41,13 @@
         <tr>
             <th scope="col">Фото</th>
             <th scope="col">Ф.И.О.</th>
-            <th scope="col">Номер и серия паспорта</th>
+            <th scope="col">Серия и номер паспорта</th>
             <th scope="col">День рождения</th>
             <th scope="col">Эл. почта</th>
             <th scope="col">Номер телефона</th>
             <th scope="col">Статус</th>
             <th scope="col">Банк</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -78,6 +79,9 @@
                 {% endif %}
             </td>
             <td>{{ item.bank }}</td>
+            <td>
+                <a href="{% url 'depositor_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

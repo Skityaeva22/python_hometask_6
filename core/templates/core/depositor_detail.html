@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+<h1 class="mb-4">
+    {{ depositor.last_name }} {{ depositor.first_name }} {{ depositor.patronymic }}
+</h1>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-md-1">
+    <a href="{% url 'depositors' %}" class="btn btn-info">< Назад</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-11">
+    <div style="display: flex; gap: 20px">
+            <div class="media">
+                {% if item.photo %}
+                <img src="{{ item.photo.url }}" height="150" width="200" class="rounded mx-auto d-block" alt="">
+                {% else %}
+                <img src="https://loremflickr.com/200/150" alt="">
+                {% endif %}
+            </div>
+        <div>
+            <p>Ф.И.О.: {{ depositor.last_name }} {{ depositor.first_name }} {{ depositor.patronymic }}</p>
+            <p>Статус:  {% if depositor.role == 'depositorPremium' %}
+                Вкладчик с высоким рейтингом
+                {% elif depositor.role == 'depositorNormal' %}
+                Вкладчик с обычным рейтингом
+                {% elif depositor.role == 'depositorGarbage' %}
+                Вкладчик из черного списка
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            <p>Серия и номер паспорта:
+                {% if depositor.passport %}
+                {{ depositor.passport }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            <p>День рождения:
+                {% if depositor.birthday %}
+                {{ depositor.birthday }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            <p>Эл. почта:
+                {% if depositor.email %}
+                {{ depositor.email }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            <p>Номер телефона:
+                {% if depositor.telephone %}
+                {{ depositor.telephone }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+            <p>Банк:
+                {% if depositor.bank %}
+                {{ depositor.bank }}
+                {% else %}
+                -
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

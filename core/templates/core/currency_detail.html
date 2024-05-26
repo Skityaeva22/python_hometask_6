@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+<h1 class="mb-4">
+    {{ currency.name }}
+</h1>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-md-1">
+    <a href="{% url 'currency' %}" class="btn btn-info">< Назад</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-11">
+    <p>Валюта "{{ currency.name }}" имеет кодовое обозначение {{ currency.code }}</p>
+    <p>Статус обмена в банке: {{ additional_info }}</p>
+</div>
+{% endblock %}

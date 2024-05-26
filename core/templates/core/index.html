@@ -20,7 +20,7 @@
         <a class="list-group-item" href="{% url 'currency' %}">Валюты</a>
         <a class="list-group-item" href="{% url 'depositors' %}">Вкладчики</a>
         <a class="list-group-item" href="{% url 'deposits' %}">Вклады</a>
-        <a class="list-group-item" href="{% url 'home' %}">Панель администратора</a>
+        <a class="list-group-item" href="{% url 'admin' %}">Панель администратора</a>
     </ul>
 </div>
 <script>
@@ -53,6 +53,7 @@
         <tr>
             <th scope="col">Наименование</th>
             <th scope="col">Адрес</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -60,6 +61,9 @@
         <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.address }}</td>
+            <td>
+                <a href="{% url 'deposit_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

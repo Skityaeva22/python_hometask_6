@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+<h1 class="mb-4">
+    {{ bank.name }}
+</h1>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-md-1">
+    <a href="{% url 'home' %}" class="btn btn-info">< Назад</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-11">
+    <p>Банк "{{ bank.name }}" расположен по адресу {{ bank.address }}</p>
+    <p>Время работы: {{ additional_info }}</p>
+</div>
+{% endblock %}

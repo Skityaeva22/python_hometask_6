@@ -44,7 +44,8 @@
         <thead class="table-info">
         <tr>
             <th scope="col">Наименование</th>
-            <th scope="col">Кодовой обозначение</th>
+            <th scope="col">Кодовое обозначение</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +53,9 @@
         <tr>
             <td>{{ item.name }}</td>
             <td>{{ item.code }}</td>
+            <td>
+                <a href="{% url 'currency_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

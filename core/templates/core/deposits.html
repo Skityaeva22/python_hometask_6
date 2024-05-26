@@ -32,6 +32,7 @@
             <th scope="col">Дата открытия</th>
             <th scope="col">Сумма</th>
             <th scope="col">Годовой процент</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -41,6 +42,9 @@
             <td>{{ item.dc }}</td>
             <td>{{ item.amount }} {{ item.currency.code }}</td>
             <td>{{ item.annual_percentage }} %</td>
+            <td>
+                <a href="{% url 'deposit_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
