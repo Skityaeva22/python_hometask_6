@@ -5,28 +5,9 @@ from django.views.generic import ListView, TemplateView, DetailView, RedirectVie
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
 
 from core import models, filters, serializers
-
-class BanksVS(ModelViewSet):
-    queryset = models.Bank.objects.all()
-    filterset_class = filters.BanksFilter
-    serializer_class = serializers.Banks
-
-class BanksAPI(APIView):
-    def get(self, request):
-        qs = models.Bank.objects.all()
-        names = [p.name for p in qs]
-        serializer = serializers.Banks(qs, many=True)
-
-        return Response(data=serializer.data)
-
-    def post(self, request):
-        serializer = serializers.Banks(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response({'message': 'OK'})
 
 class BanksList(ListView):
     model = models.Bank
@@ -198,3 +179,210 @@ class DepositDetail(DetailView):
 class RedirectAdmin(RedirectView):
     query_string = True
     url = 'http://127.0.0.1:8000/admin/'
+
+class BanksVS(ModelViewSet):
+    queryset = models.Bank.objects.all()
+    filterset_class = filters.BanksFilter
+    serializer_class = serializers.Banks
+
+class BanksAPI(APIView):
+    def get(self, request):
+        qs = models.Bank.objects.all()
+        names = [p.name for p in qs]
+        serializer = serializers.Banks(qs, many=True)
+
+        return Response(data=serializer.data)
+
+    def post(self, request):
+        serializer = serializers.Banks(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
+
+    def patch(self, request):
+        bank_id = request.data.get('id')
+        try:
+            bank = models.Bank.objects.get(id=bank_id)
+        except models.Bank.DoesNotExist:
+            return Response({'message': 'Bank not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Banks(instance=bank, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Bank updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        bank_id = request.data.get('id')
+        try:
+            bank = models.Bank.objects.get(id=bank_id)
+        except models.Bank.DoesNotExist:
+            return Response({'message': 'Bank not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Banks(instance=bank, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Bank updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        bank_id = request.data.get('id')
+        try:
+            bank = models.Bank.objects.get(id=bank_id)
+        except models.Bank.DoesNotExist:
+            return Response({'message': 'Bank not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        bank.delete()
+        return Response({'message': 'Bank deleted'})
+
+class CurrencyAPI(APIView):
+    def get(self, request):
+        qs = models.Currency.objects.all()
+        names = [p.name for p in qs]
+        serializer = serializers.Currency(qs, many=True)
+
+        return Response(data=serializer.data)
+
+    def post(self, request):
+        serializer = serializers.Currency(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
+
+    def patch(self, request):
+        currency_id = request.data.get('id')
+        try:
+            currency = models.Currency.objects.get(id=currency_id)
+        except models.Currency.DoesNotExist:
+            return Response({'message': 'Currency not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Currency(instance=currency, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Currency updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        currency_id = request.data.get('id')
+        try:
+            currency = models.Currency.objects.get(id=currency_id)
+        except models.Currency.DoesNotExist:
+            return Response({'message': 'Currency not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Currency(instance=currency, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Currency updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        currency_id = request.data.get('id')
+        try:
+            currency = models.Currency.objects.get(id=currency_id)
+        except models.Currency.DoesNotExist:
+            return Response({'message': 'Currency not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        currency.delete()
+        return Response({'message': 'Currency deleted'})
+
+class DepositorsAPI(APIView):
+    def get(self, request):
+        qs = models.Depositor.objects.all()
+        serializer = serializers.Depositors(qs, many=True)
+
+        return Response(data=serializer.data)
+
+    def post(self, request):
+        serializer = serializers.Depositors(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
+
+    def patch(self, request):
+        depositor_id = request.data.get('id')
+        try:
+            depositor = models.Depositor.objects.get(id=depositor_id)
+        except models.Depositor.DoesNotExist:
+            return Response({'message': 'Depositor not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Depositors(instance=depositor, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Depositor updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        depositor_id = request.data.get('id')
+        try:
+            depositor = models.Depositor.objects.get(id=depositor_id)
+        except models.Depositor.DoesNotExist:
+            return Response({'message': 'Depositor not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Depositors(instance=depositor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Depositor updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        depositor_id = request.data.get('id')
+        try:
+            depositor = models.Depositor.objects.get(id=depositor_id)
+        except models.Depositor.DoesNotExist:
+            return Response({'message': 'Depositor not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        depositor.delete()
+        return Response({'message': 'Depositor deleted'})
+
+class DepositsAPI(APIView):
+    def get(self, request):
+        qs = models.Deposit.objects.all()
+        serializer = serializers.Deposits(qs, many=True)
+
+        return Response(data=serializer.data)
+
+    def post(self, request):
+        serializer = serializers.Deposits(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({'message': 'OK'})
+
+    def patch(self, request):
+        deposit_id = request.data.get('id')
+        try:
+            deposit = models.Deposit.objects.get(id=deposit_id)
+        except models.Deposit.DoesNotExist:
+            return Response({'message': 'Deposit not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Deposits(instance=deposit, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Deposit updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        deposit_id = request.data.get('id')
+        try:
+            deposit = models.Deposit.objects.get(id=deposit_id)
+        except models.Deposit.DoesNotExist:
+            return Response({'message': 'Deposit not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.Deposits(instance=deposit, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Deposit updated'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        deposit_id = request.data.get('id')
+        try:
+            deposit = models.Deposit.objects.get(id=deposit_id)
+        except models.Deposit.DoesNotExist:
+            return Response({'message': 'Deposit not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        deposit.delete()
+        return Response({'message': 'Deposit deleted'})

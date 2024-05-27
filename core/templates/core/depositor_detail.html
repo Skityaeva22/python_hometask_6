@@ -16,8 +16,8 @@
 <div class="col-md-11">
     <div style="display: flex; gap: 20px">
             <div class="media">
-                {% if item.photo %}
-                <img src="{{ item.photo.url }}" height="150" width="200" class="rounded mx-auto d-block" alt="">
+                {% if depositor.photo %}
+                <img src="{{ depositor.photo.url }}" height="150" width="200" class="rounded mx-auto d-block" alt="">
                 {% else %}
                 <img src="https://loremflickr.com/200/150" alt="">
                 {% endif %}

@@ -17,8 +17,7 @@
         </div>
     </form>
     <ul class="list-group mt-4">
-        <a class="list-group-item" href="{% url 'home' %}">Банки</a>
-        <a class="list-group-item" href="{% url 'banks-vs' %}">Настройки</a>
+        <a class="list-group-item" href="{% url 'banks_settings' %}">Настройки</a>
         <a class="list-group-item" href="{% url 'currency' %}">Валюты</a>
         <a class="list-group-item" href="{% url 'depositors' %}">Вкладчики</a>
         <a class="list-group-item" href="{% url 'deposits' %}">Вклады</a>
@@ -64,7 +63,7 @@
             <td>{{ item.name }}</td>
             <td>{{ item.address }}</td>
             <td>
-                <a href="{% url 'deposit_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
+                <a href="{% url 'bank_detail' pk=item.pk %}" class="btn btn-outline-info">Подробнее</a>
             </td>
         </tr>
         {% endfor %}

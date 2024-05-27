@@ -16,6 +16,13 @@
             <a href="{% url 'currency' %}" class="btn btn-light">Сброс</a>
         </div>
     </form>
+    <ul class="list-group mt-4">
+        <a class="list-group-item" href="{% url 'currency_settings' %}">Настройки</a>
+        <a class="list-group-item" href="{% url 'home' %}">Банки</a>
+        <a class="list-group-item" href="{% url 'depositors' %}">Вкладчики</a>
+        <a class="list-group-item" href="{% url 'deposits' %}">Вклады</a>
+        <a class="list-group-item" href="{% url 'admin' %}">Панель администратора</a>
+    </ul>
 </div>
 {% endblock %}
 

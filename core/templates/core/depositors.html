@@ -40,6 +40,13 @@
         <button type="submit" class="btn btn-info">Применить фильтры</button>
         <a href="{% url 'depositors' %}" class="btn btn-light">Сбросить</a>
     </form>
+    <ul class="list-group mt-4">
+        <a class="list-group-item" href="{% url 'depositors_settings' %}">Настройки</a>
+        <a class="list-group-item" href="{% url 'home' %}">Банки</a>
+        <a class="list-group-item" href="{% url 'currency' %}">Валюты</a>
+        <a class="list-group-item" href="{% url 'deposits' %}">Вклады</a>
+        <a class="list-group-item" href="{% url 'admin' %}">Панель администратора</a>
+    </ul>
 </div>
 {% endblock %}
 
